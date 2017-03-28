@@ -40,6 +40,7 @@ class Client
     public $accessSecret;
 
     public $baseUri = 'http://alidns.aliyuncs.com/';
+    
     /**
      * @var HttpClient
      */
