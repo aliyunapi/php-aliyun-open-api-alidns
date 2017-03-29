@@ -1,4 +1,3 @@
-
 <?php
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -18,6 +17,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+
 namespace aliyun\alidns;
 
 use GuzzleHttp\HandlerStack;
@@ -34,17 +34,27 @@ class Client
      * @var string
      */
     public $accessKeyId;
+
     /**
      * @var string
      */
     public $accessSecret;
 
+    /**
+     * @var string API版本
+     */
+    public $version = '2015-01-09';
+
+    /**
+     * @var string 网关地址
+     */
     public $baseUri = 'http://alidns.aliyuncs.com/';
-    
+
     /**
      * @var HttpClient
      */
     private $_httpClient;
+
     /**
      * Request constructor.
      * @param array $config
@@ -55,6 +65,7 @@ class Client
             $this->{$name} = $value;
         }
     }
+
     /**
      * 获取Http Client
      * @return HttpClient
@@ -66,6 +77,7 @@ class Client
             $middleware = new Rpc([
                 'accessKeyId' => $this->accessKeyId,
                 'accessSecret' => $this->accessSecret,
+                'Version' => $this->version
             ]);
             $stack->push($middleware);
             $this->_httpClient = new HttpClient([
@@ -80,12 +92,13 @@ class Client
         }
         return $this->_httpClient;
     }
+
     /**
      * @param array $params
      * @return string
      */
     public function createRequest(array $params)
     {
-        return $this->getHttpClient()->get('/',['query'=>$params]);
+        return $this->getHttpClient()->get('/', ['query' => $params]);
     }
 }
